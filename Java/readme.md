@@ -8,6 +8,7 @@
 JMM 模型，工作内存，主内存
 ```
 
+
 * volatile 的主要作用
 
 ```properties
