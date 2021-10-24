@@ -35,6 +35,7 @@ JMM 模型，工作内存，主内存
 　　	3. 如果是写操作，它会导致其他CPU中对应的缓存行无效.
 ```
 
+
 ** 在每个volatile写操作前插入StoreStore屏障，在写操作后插入StoreLoad屏障；在每个volatile读操作前插入LoadLoad屏障，在读操作后插入LoadStore屏障； **
 
 #### final
