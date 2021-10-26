@@ -70,11 +70,30 @@ final引用不能从构造函数内“溢出”
 当获取锁时，JMM会把该线程对应的本地内存置为无效，从而使得被监视其保护的临界区代码必须从主内存中读取共享变量。
 
 #### Happens-Before规则
+* 程序次序规则：在一个线程内一段代码的执行结果是有序的。就是还会指令重排，但是随便它怎么排，结果是按照我们代码的顺序生成的不会变。
+* 管程锁定规则：就是无论是在单线程环境还是多线程环境，对于同一个锁来说，一个线程对这个锁解锁之后，另一个线程获取了这个锁都能看到前一个线程的操作结果！(管程是一种通用的同步原语，synchronized就是管程的实现）
+* volatile变量规则：就是如果一个线程先去写一个volatile变量，然后一个线程去读这个变量，那么这个写操作的结果一定对读的这个线程可见。
+* 线程启动规则：在主线程A执行过程中，启动子线程B，那么线程A在启动子线程B之前对共享变量的修改结果对线程B可见。
+* 线程终止规则：在主线程A执行过程中，子线程B终止，那么线程B在终止之前对共享变量的修改结果在线程A中可见。也称线程join()规则。
+* 线程中断规则：对线程interrupt()方法的调用先行发生于被中断线程代码检测到中断事件的发生，可以通过Thread.interrupted()检测到是否发生中断。
+* 传递性规则：这个简单的，就是happens-before原则具有传递性，即hb(A, B) ， hb(B, C)，那么hb(A, C)。
+* 对象终结规则：这个也简单的，就是一个对象的初始化的完成，也就是构造函数执行的结束一定 happens-before它的finalize()方法。
 
+### Java 类的实例化过程
 ### 集合类的关系与梳理
 #### 集合类的继承关系
 #### hashmap 与 hashtable 的关系
 #### 源码知识hashmap/ConcurrentHashMap
+```java
+1. hashmap  每次增长都是前一次初始容量的的2倍
+2. 之所以是2倍 是因为   在求index 的时候  hash&(length-1)[都是00000011111……] 相当于右位移了2n 位置。相当于取模
+3. 扩容之后，jdk 1.7 需要重新计算hash 值， jdk 1.8 利用  length 长度增加了2n 次方，所以对应的hash&(length-1) length-1 也就是高位多了一个2n 次方的1 ， 因此只是相当于原位置加capacity 的下表
+4. 第一次初始化会生成大于初始数组最小的2n 次方的长度数组
+```
+
+[HashMap 源码讲解](https://www.cnblogs.com/ITtangtang/p/3948406.html "hashmap 笔记")<br/>
+[ConcurrentHashMap 源码讲解](https://www.itqiankun.com/article/concurrenthashmap-principle "ConcurrentHashMap 笔记")
+
 #### JUC 知识
 > ConcurrentHashMap
 
@@ -89,6 +108,9 @@ final引用不能从构造函数内“溢出”
 #### 线程状态 与转变
 #### 线程间通信
 #### 锁synchorized/Lock/CountDownLatch/CycleBarire
+### ThreadLocal
+[ThreadLocal源码解析](https://www.itqiankun.com/article/1564891332 "ThreadLocal 源码解析")
+[ThreadLocal 内存泄露](https://link.zhihu.com/?target=https%3A//juejin.im/post/5e184276e51d4557e86e8afd)
 ### 线程池
 #### 基本参数 及原理
 #### AQS
