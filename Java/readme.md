@@ -104,8 +104,15 @@ final引用不能从构造函数内“溢出”
 ```java
 ```
 
+> AutomicInteger
+```java
+```
+
 ### 线程相关知识
+
 #### 线程状态 与转变
+![线程状态转换](C:\Users\dongbin\Desktop\QQ图片20211026170533.png)
+
 #### 线程间通信
 #### 锁synchorized/Lock/CountDownLatch/CycleBarire
 ### ThreadLocal
